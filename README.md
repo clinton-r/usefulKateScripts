@@ -12,4 +12,4 @@ More info [here](https://docs.kde.org/stable5/en/kate/katepart/dev-scripting.htm
 
 ## clipboard_append.js
 
-Adds commands to cut&append to clipboard, copy&append to clipboard, and swap the selection with the clipboard.
+Adds commands to cut&append to clipboard, copy&append to clipboard, and swap the selection with the clipboard.  The commands are added to the Tools | Scripts | Editing menu.  Keyboard shortcuts are listed next to the items in that menu.

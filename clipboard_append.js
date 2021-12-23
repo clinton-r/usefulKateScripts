@@ -1,7 +1,7 @@
 var katescript = {
     "author":       "Clinton Reddekop",
     "license":      "BSD",
-    "revision":     1,
+    "revision":     2,
     "kate-version": 5.68,
     "functions":    ["copyAppend", "cutAppend", "swapCutPaste"],
     "actions": [
@@ -68,43 +68,68 @@ function help(cmd)
     }
 }
 
-function cutCopyAppend(cut)
+function worker(cut, swap)
 {
-    if (!view.hasSelection())
+    var selStr = "";
+    if (view.hasSelection())
     {
-        return;
+        // Get the selection
+        selStr = view.selectedText();
+        if (cut)
+        {
+            view.removeSelectedText();
+        }
+    }
+    else
+    {
+        // Nothing is selected, so get the current line
+        curLineStartPos = new Cursor(view.cursorPosition().line, 0)
+        if (!curLineStartPos.isValid())
+        {
+            return;
+        }
+        //selStr = document.line(curLineStartPos.line);
+        // document.line() doesn't copy the line-end so do this instead:
+        nextLineStartPos = new Cursor(curLineStartPos.line+1, 0);
+        if (nextLineStartPos.isValid())
+        {
+            selStr = document.text(curLineStartPos, nextLineStartPos);
+        }
+        else // no line-end? so use document.line() after all
+        {
+            selStr = document.line(curLineStartPos.line);
+        }
+        
+        if (cut)
+        {
+            document.removeLine(curLineStartPos.line);
+        }
     }
     
-    var selStr = view.selectedText();
     var clipStr = editor.clipboardText();
-    var newClipStr = clipStr + selStr;
-    editor.setClipboardText(newClipStr);
-    if (cut)
+    if (swap) // swapCutPaste
     {
-        view.removeSelectedText();
+        editor.setClipboardText(selStr);
+        document.insertText(view.cursorPosition(), clipStr);
+    }
+    else // cutAppend or copyAppend --- do the "append" now
+    {
+        var newClipStr = clipStr + selStr;
+        editor.setClipboardText(newClipStr);
     }
 }
 
 function copyAppend()
 {
-    cutCopyAppend(false);
+    worker(false, false);
 }
 
 function cutAppend()
 {
-    cutCopyAppend(true);
+    worker(true, false);
 }
 
 function swapCutPaste()
 {
-    if (!view.hasSelection())
-    {
-        return;
-    }
-    
-    var selStr = view.selectedText();
-    var clipStr = editor.clipboardText();
-    view.removeSelectedText();
-    document.insertText(view.cursorPosition(), clipStr);
-    editor.setClipboardText(selStr);
+    worker(true, true);
 }

@@ -1,7 +1,7 @@
 var katescript = {
     "author":       "Clinton Reddekop",
     "license":      "BSD",
-    "revision":     2,
+    "revision":     3,
     "kate-version": 5.68,
     "functions":    ["copyAppend", "cutAppend", "swapCutPaste"],
     "actions": [
@@ -88,17 +88,8 @@ function worker(cut, swap)
         {
             return;
         }
-        //selStr = document.line(curLineStartPos.line);
-        // document.line() doesn't copy the line-end so do this instead:
-        nextLineStartPos = new Cursor(curLineStartPos.line+1, 0);
-        if (nextLineStartPos.isValid())
-        {
-            selStr = document.text(curLineStartPos, nextLineStartPos);
-        }
-        else // no line-end? so use document.line() after all
-        {
-            selStr = document.line(curLineStartPos.line);
-        }
+        // document.line() doesn't copy the line-end so append "\n":
+        selStr = document.line(curLineStartPos.line) + "\n";
         
         if (cut)
         {

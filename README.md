@@ -4,9 +4,9 @@ A repository of scripts to extend the [Kate editor](https://kate-editor.org/).
 
 ### Installation
 
-Linux: copy the script files to ~/.local/share/katepart5/script/commands/ and then restart Kate.  (This works for me on Linux Mint 20.2 with XFCE.)
+Linux: copy the script files to ~/.local/share/katepart5/script/commands/ and then restart Kate.
 
-Windows: copy the script files to %USERPROFILE%\AppData\Local\katepart5\commands\ and then restart Kate.  (Supposed to work, but didn't for me...)
+Windows: copy the script files to %USERPROFILE%\AppData\Local\katepart5\script\commands\ and then restart Kate.
 
 More info [here](https://docs.kde.org/stable5/en/kate/katepart/dev-scripting.html)
 

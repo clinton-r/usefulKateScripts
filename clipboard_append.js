@@ -1,6 +1,6 @@
 var katescript = {
     "author":       "Clinton Reddekop",
-    "license":      "BSD",
+    "license":      "MIT",
     "revision":     3,
     "kate-version": 5.68,
     "functions":    ["copyAppend", "cutAppend", "swapCutPaste"],
